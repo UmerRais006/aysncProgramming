@@ -13,7 +13,6 @@ function secondMost(i, colB, rowsB, resultMatrix, m1, m2) {
       resultMatrix[i][j] = innerMost(i, j, rowsB, m1, m2);
     });
 
-  
   }
 }
 
