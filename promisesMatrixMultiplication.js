@@ -10,19 +10,18 @@ function innerMost(i, j, rowsB, m1, m2) {
 function secondMost(i, colB, rowsB, resultMatrix, m1, m2) {
   for (let j = 0; j < colB; j++) {
     new Promise((resolve) => {
-      resultMatrix[i][j] = innerMost(i, j, rowsB, m1, m2);
+      resultMatrix[i][j] = await (innerMost(i, j, rowsB, m1, m2));
     });
   }
 }
 
-function outerMost(rowsA, colB, rowsB, m1, m2) {
+async function outerMost(rowsA, colB, rowsB, m1, m2) {
   const resultMatrix = [];
   for (let i = 0; i < rowsA; i++) {
     resultMatrix[i] = [];
 
-    new Promise((resolve) =>
-      resolve(secondMost(i, colB, rowsB, resultMatrix, m1, m2))
-    );
+    await (secondMost(i, colB, rowsB, resultMatrix, m1, m2))
+   
   }
 
   //   new Promise((resolve) => {
@@ -58,7 +57,7 @@ const matrix2 = Array.from({ length: cols }, () =>
 );
 // before 1.9 sakonds
 console.time("Time");
-
+// matrixMultiplication(matrix1, matrix2);
 const resultMatrix = matrixMultiplication(matrix1, matrix2);
 console.timeEnd("Time");
 // console.log(resultMatrix);
