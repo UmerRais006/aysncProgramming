@@ -7,30 +7,31 @@ function innerMost(i, j, rowsB, m1, m2) {
   return sum;
 }
 
-function secondMost(i, colB, rowsB, resultMatrix, m1, m2) {
+async function secondMost(i, colB, rowsB, resultMatrix, m1, m2) {
+  const row = [];
   for (let j = 0; j < colB; j++) {
-    new Promise((resolve) => {
-      resultMatrix[i][j] = await (innerMost(i, j, rowsB, m1, m2));
-    });
+    row[j] = innerMost(i, j, rowsB, m1, m2);
   }
+  return row;
 }
 
 async function outerMost(rowsA, colB, rowsB, m1, m2) {
-  const resultMatrix = [];
   for (let i = 0; i < rowsA; i++) {
     resultMatrix[i] = [];
 
-    await (secondMost(i, colB, rowsB, resultMatrix, m1, m2))
-   
+    Promise.push(secondMost(i, colB, rowsB, resultMatrix, m1, m2));
   }
 
   //   new Promise((resolve) => {
   //     resolve(outerMost(rowsA, colB, rowsB, m1, m2));
   //   });
+  
+  const resultMatrix = await Promise.all(promises);
+ 
   return resultMatrix;
 }
 
-function matrixMultiplication(m1, m2) {
+async function matrixMultiplication(m1, m2) {
   const rowsA = matrix1.length;
   const colA = matrix1[0].length;
 
@@ -43,7 +44,12 @@ function matrixMultiplication(m1, m2) {
     );
   }
 
-  return outerMost(rowsA, colB, rowsB, m1, m2);
+  try {
+    const result = await outerMost(rowsA, colB, rowsB, m1, m2);
+    return result;
+  } catch (error) {
+    return error;
+  }
 }
 
 const rows = 1200;
